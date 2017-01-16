@@ -1,0 +1,2 @@
+Icons:
+http://tango.freedesktop.org/Tango_Desktop_Project
