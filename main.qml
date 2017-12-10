@@ -3,6 +3,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import WeatherStorage 1.0
 import QtCharts 2.1
+import QtGraphicalEffects 1.0
 
 ApplicationWindow {
 	id: applicationWindow
@@ -43,6 +44,17 @@ ApplicationWindow {
 			}
 		}
 	}
+	
+	LinearGradient{
+		anchors.fill: parent
+		start: Qt.point(0,0)
+		end: Qt.point(0, parent.height)
+		gradient: Gradient{
+			GradientStop{position: 0.0; color : "#FFFFff"}
+			GradientStop{position: 1.0; color : "#ccccff"}
+		}
+	}
+	
 	
 	Connections{
 		target : WeatherStorage
@@ -181,9 +193,12 @@ ApplicationWindow {
 			anchors.left: parent.left
 			anchors.right: parent.right
 			anchors.margins: 5
+			background: Rectangle {
+					   color: "transparent"
+				   }			
 			
 			BorderRectangle{
-				border.color: "lightgrey"
+				border.color: "black"
 			}
 			
 			onClicked: {
@@ -207,22 +222,18 @@ ApplicationWindow {
 			border.color: "lightGrey"
 		}
 		
-		Label{
-			text: qsTr("Weather forecast3")
-			anchors.centerIn: parent
-		}
-	
 		ChartView{
 			id: chart
 			anchors.left: parent.left
 			anchors.right: parent.right
 			anchors.top: parent.top
 			anchors.bottom: forecastRowLayout.top			
+			backgroundColor: "transparent"
 					
 			SplineSeries{
 				id: temperatureSpline					
 				name: "Temperature"
-				color: "red"
+				color: "blue"
 				
 				axisX: DateTimeAxis{
 					id: xAxis					
@@ -246,6 +257,41 @@ ApplicationWindow {
 			anchors.right: parent.right
 			spacing: 0
 			
+			// unknown bug in Qt5.10 when placing dynamically created items into layout, so this ugly workaround:
+			
+			ForecastItem{
+				weatherData: WeatherStorage.forecastWeather[0]
+			}
+			ForecastItem{
+				weatherData: WeatherStorage.forecastWeather[1]
+			}
+			ForecastItem{
+				weatherData: WeatherStorage.forecastWeather[2]
+			}
+			ForecastItem{
+				weatherData: WeatherStorage.forecastWeather[3]
+			}
+			ForecastItem{
+				weatherData: WeatherStorage.forecastWeather[4]
+			}
+			
+			ForecastItem{
+				weatherData: WeatherStorage.forecastWeather[5]
+			}
+			ForecastItem{
+				weatherData: WeatherStorage.forecastWeather[6]
+			}
+			ForecastItem{
+				weatherData: WeatherStorage.forecastWeather[7]
+			}
+			ForecastItem{
+				weatherData: WeatherStorage.forecastWeather[8]
+			}
+			ForecastItem{
+				weatherData: WeatherStorage.forecastWeather[9]
+			}
+			
+			/*
 			Component.onCompleted: {
 				
 				var forecastItemComponent;
@@ -272,6 +318,7 @@ ApplicationWindow {
 				}
 				createForecastItems()
 			}
+			*/
 	
 			BorderRectangle{
 				border.color: "lightGrey"
